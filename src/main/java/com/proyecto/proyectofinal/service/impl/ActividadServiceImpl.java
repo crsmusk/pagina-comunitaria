@@ -69,7 +69,7 @@ public class ActividadServiceImpl implements ActividadService {
         */
         UsuarioEntity usuario = this.usuarioRepository.findByNickNameIgnoreCase(actividadDto.getNicknameCreador())
                 .orElse(null);
-        if (usuario.getCedula().equals(actividadDto.getCedulaCreador())) {
+      //  if (usuario.getCedula().equals(actividadDto.getCedulaCreador())) {
             ActividadEntity actividad = new ActividadEntity();
             actividad.setFechaCreacion(actividadDto.getFechaCreacion());
             actividad.setFechaInicio(actividadDto.getFechaInicio());
@@ -88,10 +88,10 @@ public class ActividadServiceImpl implements ActividadService {
              */
             actividad.setImagenReferencia(guardarFoto(actividadDto.getFotoActividad()));
             return this.actividadRepository.save(actividad);
-        } else {
+        /* } else {
             return null;
 
-        }
+        }*/
 
     }
 

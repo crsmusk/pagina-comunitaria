@@ -72,6 +72,7 @@ public class ActividadController {
     @PostMapping("/guardar-actividad")
     public String guardarActividad(@ModelAttribute("actividadDto") RequestActividadDTO actividadDTO,
             RedirectAttributes redirectAttributes) {
+  
                
         this.actividadService.guardarActividad(actividadDTO);
         return "redirect:/actividad/listar-actividades";
