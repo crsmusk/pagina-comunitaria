@@ -65,5 +65,19 @@ public class EmailServiceImpl implements EmailService {
         } 
     }
 
+    @Override
+    public EmailEntity buscarEmail(String email) {
+        EmailEntity emailEntity = this.emailRepository.findByEmail(email)
+                .orElse(null);
+        if (emailEntity == null) {
+            emailEntity = new EmailEntity();
+            emailEntity.setEmail(email);
+            return this.emailRepository.save(emailEntity);
+        }
+        return emailEntity;
+    }
+
+   
+
     
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import com.proyecto.proyectofinal.model.dtos.requestDtos.RequestActividadDTO;
 import com.proyecto.proyectofinal.model.dtos.requestDtos.RequestComentariosDTO;
 import com.proyecto.proyectofinal.model.dtos.responseDtos.ResponseActividadDTO;
 import com.proyecto.proyectofinal.service.impl.ComentariosServiceImpl;
+import com.proyecto.proyectofinal.service.impl.InteresServiceImpl;
 import com.proyecto.proyectofinal.service.interfaces.ActividadService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +34,8 @@ public class ActividadController {
     private MapperDtos mapper;
     @Autowired
     private ComentariosServiceImpl comentariosService;
+    @Autowired
+    private InteresServiceImpl interesService;
 
     @GetMapping("/buscar")
     public String buscarActividades(@RequestParam String resultado, @RequestParam String opcion, Model model) {
@@ -57,8 +62,8 @@ public class ActividadController {
 
     @GetMapping("/guardar")
     public String mostrarFormularioGuardarActividad(Model model) {
-
         model.addAttribute("actividadDto", new RequestActividadDTO());
+        model.addAttribute("interesesDisponibles", interesService.listarTodos());
         return "crearActividad";
     }
 
@@ -72,8 +77,12 @@ public class ActividadController {
     @PostMapping("/guardar-actividad")
     public String guardarActividad(@ModelAttribute("actividadDto") RequestActividadDTO actividadDTO,
             RedirectAttributes redirectAttributes) {
-  
-               
+        // Obtener el usuario autenticado y asignar el nickname al DTO
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String nickname = authentication.getName();
+            actividadDTO.setNicknameCreador(nickname);
+        }
         this.actividadService.guardarActividad(actividadDTO);
         return "redirect:/actividad/listar-actividades";
     }
@@ -102,6 +111,7 @@ public class ActividadController {
     @PostMapping("/actualizar-actividad")
     public String actualizrActividad(@ModelAttribute("actividadDto") RequestActividadDTO actividadDTO,
             RedirectAttributes redirectAttributes) throws IOException {
+                
             LocalDateTime fechaCreacion = LocalDateTime.parse(actividadDTO.getFechaCreacionTexto());
             actividadDTO.setFechaCreacion(fechaCreacion);
              this.actividadService.actualizarActividad(actividadDTO.getFechaCreacion(), actividadDTO);   
@@ -155,5 +165,6 @@ public class ActividadController {
         return "redirect:/actividad/listar-actividades";
     }
     
+   
 
 }

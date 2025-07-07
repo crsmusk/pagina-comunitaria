@@ -11,5 +11,5 @@ public interface TelefonoService {
     Optional<TelefonoEntity> buscarPorId(IdTelefono id);
     List<TelefonoEntity> listarTodos();
     void eliminarTelefono(IdTelefono id);
-    Optional<TelefonoEntity> buscarPorNumeroTelefono(String numeroTelefono);
+    TelefonoEntity buscarPorNumeroTelefono(String numeroTelefono);
 }

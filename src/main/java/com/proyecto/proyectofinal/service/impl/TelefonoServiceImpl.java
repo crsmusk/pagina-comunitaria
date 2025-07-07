@@ -45,8 +45,9 @@ public class TelefonoServiceImpl implements TelefonoService {
     }
 
     @Override
-    public Optional<TelefonoEntity> buscarPorNumeroTelefono(String numeroTelefono) {
-        return telefonoRepository.findByNumeroTelefono(numeroTelefono);
+    public TelefonoEntity buscarPorNumeroTelefono(String numeroTelefono) {
+        return telefonoRepository.findByNumeroTelefono(numeroTelefono)
+                .orElse(null);
     }
 
     

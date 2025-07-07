@@ -67,7 +67,7 @@
                                     <span th:each="interes : ${actividad.intereses}"
                                         class="badge bg-primary bg-opacity-10 text-primary small">
                                         <i class="bi bi-tag"></i>
-                                        <span th:text="${interes}">Interés</span>
+                                        <a th:href="@{/actividad/buscar(resultado=${interes}, opcion=3)}" class="text-primary text-decoration-none" th:text="${interes}"></a>
                                     </span>
                                 </div>
                             </div>
@@ -103,11 +103,13 @@
                                 <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="collapse"
                                     th:data-bs-target="'#comentarios' + ${actividad.fechaCreacion}">💬 Comentar</button>
                                 <div class="d-flex gap-1 flex-wrap align-items-center ms-2">
+                                    <!--opciones para editar-->
                                     <a th:href="@{/actividad/actualizar/{fechaCreacion}(fechaCreacion=${actividad.fechaCreacion})}"
                                        class="btn btn-outline-dark btn-sm mb-1"
                                        sec:authorize="hasRole('ADMIN')">
                                         <i class="bi bi-pencil"></i> Editar
                                     </a>
+                                    <!--opciones para borrar-->
                                     <a th:href="@{/actividad/eliminar-actividad/{fechaCreacion}(fechaCreacion=${actividad.fechaCreacion})}"
                                        class="btn btn-outline-danger btn-sm mb-1"
                                        sec:authorize="hasRole('ADMIN')">

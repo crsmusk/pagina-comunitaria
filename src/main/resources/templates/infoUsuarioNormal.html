@@ -79,6 +79,9 @@
                          <input type="hidden" name="resultado" th:value="${usuario.cedula}" />
                     </form>
                 </div>
+                 <a th:href="@{/usuario/actualizar/{cedula}(cedula=${usuario.cedula})}" class="btn btn-outline-dark">
+                        <i class="bi bi-pencil"></i> Editar mis datos
+                 </a>
             </div>
         </div>
     </div>

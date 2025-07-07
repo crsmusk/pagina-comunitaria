@@ -74,7 +74,7 @@
                         onclick="document.getElementById('formOculto').submit(); return false;">
                         Ver actividades creadas
                     </a>
-                     <a th:href="@{/actividad/buscar}" class="btn btn-outline-primary"
+                    <a th:href="@{/actividad/buscar}" class="btn btn-outline-primary"
                         onclick="document.getElementById('formOculto2').submit(); return false;">
                         Ver actividades en las que participa
                     </a>
@@ -86,6 +86,7 @@
                          <input type="hidden" name="opcion" value="4" />
                          <input type="hidden" name="resultado" th:value="${usuario.cedula}" />
                     </form>
+                   
                 </div>
             </div>
         </div>

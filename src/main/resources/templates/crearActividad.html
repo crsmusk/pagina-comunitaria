@@ -42,11 +42,28 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label for="intereses" class="form-label">Intereses (separados por coma)</label>
-                <input type="text" class="form-control" id="intereses" th:field="*{intereses}"
-                    placeholder="deportes, música, arte" required>
+           <div class="mb-3">
+                <label class="form-label">Selecciona los intereses</label>
+                <div class="form-check" th:each="interes : ${interesesDisponibles}">
+                    <input class="form-check-input" type="checkbox" th:field="*{intereses}" th:value="${interes.interes}" th:id="${'interes_' + interes.interes}" />
+                    <label class="form-check-label" th:for="${'interes_' + interes.interes}" th:text="${interes.interes}"></label>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Escribe otro interés (opcional)" onkeydown="if(event.key==='Enter'){event.preventDefault(); agregarInteresPersonalizado(this);}" />
+                <div class="form-text">Puedes escribir y presionar Enter para agregar un interés personalizado.</div>
             </div>
+            <script th:inline="javascript">
+                function agregarInteresPersonalizado(input) {
+                    var valor = input.value.trim();
+                    if(valor.length > 0) {
+                        var hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'intereses';
+                        hidden.value = valor;
+                        input.form.appendChild(hidden);
+                        input.value = '';
+                    }
+                }
+            </script>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -66,9 +83,6 @@
                 <div id="imagePreview" class="preview-image"></div>
             </div>
 
-            <div class="mb-3">
-                <input type="hidden" th:field="*{nicknameCreador}" id="nicknameCreador" th:value="${#authentication.name}">
-            </div>
 
             <button type="submit" class="btn btn-primary">Crear Actividad</button>
         </form>

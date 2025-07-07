@@ -31,12 +31,16 @@ public class InteresServiceImpl implements InteresService {
     @Override
     public Optional<InteresEntity> buscarPorNombre(String nombre) {
         InteresEntity interes = interesRepository.findByInteresIgnoreCase(nombre);
+        if (interes == null) {
+            interes= new InteresEntity();
+            interes.setInteres(nombre);
+            interes = this.interesRepository.save(interes);
+        }
         return Optional.ofNullable(interes);
     }
 
     @Override
     public List<InteresEntity> listarTodos() {
-       
         return interesRepository.findAll();
     }
 

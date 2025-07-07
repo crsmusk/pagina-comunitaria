@@ -1,4 +1,5 @@
 package com.proyecto.proyectofinal.service.impl;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,14 +26,12 @@ import com.proyecto.proyectofinal.model.idsEmbedded.IdTelefono;
 import com.proyecto.proyectofinal.repository.UsuarioRepository;
 import com.proyecto.proyectofinal.service.interfaces.UsuarioService;
 
-
-
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    @Value ("${file.upload-dir.fotos}")
+    @Value("${file.upload-dir.fotos}")
     String direccion;
-    
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -48,6 +47,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private MapperUsuarioResponse mapper;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
+    
+
     @Transactional
     @Override
     public UsuarioEntity guardarUsuario(RequestUsuarioDTO usuario) {
@@ -58,7 +62,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioEntity.setApellidoUsuario(usuario.getApellidoUsuario());
         usuarioEntity.setContrasena(usuario.getContrasena());
         usuarioEntity.setNickName(usuario.getNickName());
-        
 
         List<EmailEntity> emails = new ArrayList<>();
         if (usuario.getEmails() != null) {
@@ -70,20 +73,17 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         }
         usuarioEntity.setEmails(emails);
-        
-        
+
         List<RolEntity> roles = buscarRoles(usuario.getRoles());
         usuarioEntity.setRoles(roles);
-        
-        //se llama al metodo guardarFoto para guardar la foto de perfil
+
+        // se llama al metodo guardarFoto para guardar la foto de perfil
         usuarioEntity.setFotoPerfilReferencia(guardarFoto(usuario.getFotoPerfil()));
 
-        //se llama al metodo optenerIntereses para obtener los intereses del usuario
+        // se llama al metodo optenerIntereses para obtener los intereses del usuario
         usuarioEntity.setIntereses(optenerIntereses(usuario.getIntereses()));
 
-
         usuarioEntity = usuarioRepository.save(usuarioEntity);
-        
 
         List<TelefonoEntity> telefonos = new ArrayList<>();
         if (usuario.getTelefonos() != null) {
@@ -96,15 +96,14 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         }
         usuarioEntity.setTelefonos(telefonos);
-        
-        
+
         return usuarioEntity;
 
     }
-    
+
     @Transactional(readOnly = true)
     @Override
-    public ResponseUsuarioDTO buscarPorCedula(String cedula) {   
+    public ResponseUsuarioDTO buscarPorCedula(String cedula) {
         return this.mapper.requestToResponse(this.usuarioRepository.findById(cedula).orElse(null));
     }
 
@@ -117,7 +116,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional(readOnly = true)
     @Override
     public List<ResponseUsuarioDTO> buscarPorInteres(String interes) {
-       
+
         return this.mapper.requestsToResponses(this.usuarioRepository.buscarPorInteres(interes));
     }
 
@@ -131,16 +130,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void eliminarUsuario(String cedula) {
         if (this.usuarioRepository.existsById(cedula)) {
             this.usuarioRepository.deleteById(cedula);
-             String rutaPortada =this.usuarioRepository.findById(cedula).get().getFotoPerfilReferencia();
+            String rutaPortada = this.usuarioRepository.findById(cedula).get().getFotoPerfilReferencia();
             // Eliminar la foto de perfil del sistema de archivos
-             if (rutaPortada != null) {
+            if (rutaPortada != null) {
                 String nombreArchivo = rutaPortada.substring(rutaPortada.lastIndexOf("/") + 1);
                 File archivo = new File(direccion + File.separator + nombreArchivo);
                 if (archivo.exists()) {
                     archivo.delete();
                 }
             }
-        } 
+        }
     }
 
     public List<RolEntity> buscarRoles(List<String> roles) {
@@ -151,9 +150,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                 rolesEncontrados.add(rolEncontrado.get());
             }
         }
-        
+
         return rolesEncontrados;
-        
+
     }
 
     public String guardarFoto(MultipartFile archivo) {
@@ -190,23 +189,87 @@ public class UsuarioServiceImpl implements UsuarioService {
                 System.out.println("interes encontrado: " + interesEncontrado.get().getInteres());
             }
         }
-        
+
         return interesesEncontrados;
     }
 
     @Override
     public UsuarioEntity buscarPorId(String id) {
-       return this.usuarioRepository.findById(id).orElse(null);
+        return this.usuarioRepository.findById(id).orElse(null);
     }
 
     @Override
     public ResponseUsuarioDTO buscarPorNickname(String nickName) {
-       return this.mapper.requestToResponse(this.usuarioRepository.findByNickNameIgnoreCase(nickName).get());
+        return this.mapper.requestToResponse(this.usuarioRepository.findByNickNameIgnoreCase(nickName).get());
     }
 
     @Override
     public boolean existePorNickName(String nickName) {
         return this.usuarioRepository.existsByNickNameIgnoreCase(nickName);
     }
-    
+
+    @Override
+    @Transactional
+    public void actualizarUsuario(RequestUsuarioDTO usuario) {
+        UsuarioEntity usuarioEntity = this.usuarioRepository.findById(usuario.getCedula()).orElse(null);
+
+        usuarioEntity.setNombreUsuario(usuario.getNombreUsuario());
+        usuarioEntity.setApellidoUsuario(usuario.getApellidoUsuario());
+        usuarioEntity.setContrasena(usuario.getContrasena());
+        usuarioEntity.setNickName(usuario.getNickName());
+
+        usuarioEntity.getEmails().clear();
+        List<EmailEntity> emails = new ArrayList<>();
+        if (usuario.getEmails() != null) {
+            for (String email : usuario.getEmails()) {
+                if (email != null && !email.isBlank()) {
+                    EmailEntity emailEntity = emailService.buscarEmail(email);
+                    emailEntity.setUsuario(usuarioEntity);
+                    emails.add(emailEntity);
+                }
+            }
+        }
+        usuarioEntity.getEmails().addAll(emails);
+
+        List<RolEntity> roles = buscarRoles(usuario.getRoles());
+        usuarioEntity.setRoles(roles);
+
+        // se llama al metodo guardarFoto para guardar la foto de perfil
+        usuarioEntity.setFotoPerfilReferencia(guardarFoto(usuario.getFotoPerfil()));
+
+        // se llama al metodo optenerIntereses para obtener los intereses del usuario
+        usuarioEntity.setIntereses(optenerIntereses(usuario.getIntereses()));
+
+        usuarioEntity = usuarioRepository.save(usuarioEntity);
+        
+        // Actualizar los teléfonos del usuario
+        // Primero, eliminamos los teléfonos antiguos
+        usuarioEntity.getTelefonos().clear();
+        // Luego, agregamos los nuevos teléfonos
+        List<TelefonoEntity> telefonos = new ArrayList<>();
+        if (usuario.getTelefonos() != null) {
+            for (String numeroTelefono : usuario.getTelefonos()) {
+                if (telefonoService.buscarPorNumeroTelefono(numeroTelefono) != null) {
+                    // Si el teléfono ya existe, lo actualizamos
+                    TelefonoEntity telefonoExistente = telefonoService.buscarPorNumeroTelefono(numeroTelefono);
+                    telefonoExistente.setUsuario(usuarioEntity);
+                    telefonos.add(telefonoExistente);
+                    continue;
+                    
+                }
+                TelefonoEntity telefonoEntity = new TelefonoEntity();
+                IdTelefono idTelefono = new IdTelefono(numeroTelefono, usuarioEntity.getCedula());
+                telefonoEntity.setId(idTelefono);
+                telefonoEntity.setUsuario(usuarioEntity);
+                telefonos.add(telefonoService.guardarTelefono(telefonoEntity));
+            }
+        }
+        // Asignar la lista de teléfonos al usuario
+        usuarioEntity.getTelefonos().addAll(telefonos);
+
+        // Guardar los cambios en la base de datos
+        this.usuarioRepository.save(usuarioEntity);
+
+    }
+
 }

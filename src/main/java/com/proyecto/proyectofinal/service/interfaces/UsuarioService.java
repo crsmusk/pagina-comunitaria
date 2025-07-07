@@ -19,5 +19,6 @@ public interface UsuarioService {
     ResponseUsuarioDTO buscarPorNickname(String nickName);
     //boolean existePorCedula(String cedula);
     boolean existePorNickName(String nickName);
+    void actualizarUsuario(RequestUsuarioDTO usuario);
     
 }
