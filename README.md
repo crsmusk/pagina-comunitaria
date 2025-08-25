@@ -14,31 +14,30 @@ Una plataforma web comunitaria desarrollada con Spring Boot que permite a los us
 - **Gestión de Actividades**: Crear, actualizar y participar en eventos comunitarios
 - **Sistema de Búsqueda**: Buscar actividades por nombre, ciudad o interés
 - **Sistema de Comentarios**: Interactuar y comentar en las actividades
-- **Geolocalización**: Actividades asociadas a ubicaciones específicas
 - **Sistema de Intereses**: Etiquetado y categorización de contenido
 - **Autenticación Segura**: Sistema de login con Spring Security
 
 ## 🛠️ Tecnologías Utilizadas
 
 ### Backend
-- **Java 21** [1](#0-0) 
-- **Spring Boot 3.4.5** [2](#0-1) 
-- **Spring Data JPA** - Para persistencia de datos [3](#0-2) 
-- **Spring Security** - Para autenticación y autorización [4](#0-3) 
-- **Spring Boot DevTools** - Para desarrollo [5](#0-4) 
-- **Lombok** - Para reducir código boilerplate [6](#0-5) 
-- **Hibernate Validator** - Para validación de datos [7](#0-6) 
+- **Java 21** 
+- **Spring Boot 3.4.5** 
+- **Spring Data JPA** - Para persistencia de datos 
+- **Spring Security** - Para autenticación y autorización 
+- **Spring Boot DevTools** - Para desarrollo 
+- **Lombok** - Para reducir código boilerplate 
+- **Hibernate Validator** - Para validación de datos  
 
 ### Frontend
-- **Thymeleaf** - Motor de plantillas [8](#0-7) 
-- **Bootstrap 5.3.0** - Framework CSS [9](#0-8) 
-- **Font Awesome 6.0.0** - Iconografía [10](#0-9) 
+- **Thymeleaf** - Motor de plantillas 
+- **Bootstrap 5.3.0** - Framework CSS 
+- **Font Awesome 6.0.0** - Iconografía 
 
 ### Base de Datos
-- **MySQL** - Base de datos principal [11](#0-10) 
+- **MySQL** - Base de datos principal 
 
 ### Herramientas de Construcción
-- **Maven** - Gestión de dependencias y construcción del proyecto [12](#0-11) 
+- **Maven** - Gestión de dependencias y construcción del proyecto  
 
 ## 📁 Estructura del Proyecto
 
@@ -113,7 +112,7 @@ La aplicación estará disponible en `http://localhost:8080`
 - **Explorar Actividades**: Navegar por actividades disponibles en la comunidad
 - **Búsqueda Avanzada**: Filtrar por nombre, ciudad o interés
 - **Participación**: Inscribirse y desinscribirse de actividades
-- **Interacción**: Comentar en actividades [16](#0-15) 
+- **Interacción**: Comentar en actividades 
 
 ### Para Organizadores
 - **Crear Actividades**: Publicar nuevos eventos con detalles completos
@@ -135,7 +134,7 @@ El proyecto implementa Spring Security con:
 - Autenticación basada en sesiones
 - Control de acceso por roles
 - Protección CSRF
-- Validación de datos de entrada [4](#0-3) 
+- Validación de datos de entrada 
 
 ## 📝 Notas
 
