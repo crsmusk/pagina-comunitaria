@@ -2,7 +2,7 @@
 
 
 
-Basándome en la exploración del código del proyecto, aquí tienes un README completo:
+
 
 # Página Comunitaria
 
