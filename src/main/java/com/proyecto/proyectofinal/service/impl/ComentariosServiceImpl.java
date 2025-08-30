@@ -17,14 +17,23 @@ import com.proyecto.proyectofinal.service.interfaces.ComentarioService;
 @Service
 public class ComentariosServiceImpl implements ComentarioService{
 
-    @Autowired
-    private ComentarioRepository comentarioRepository;
-    @Autowired
-    private ActividadRepository actividadRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private MapperComentarioResponse  mapper;
+    
+    private final  ComentarioRepository comentarioRepository;
+    
+    private final ActividadRepository actividadRepository;
+     
+    private final UsuarioRepository usuarioRepository;
+    
+    private final MapperComentarioResponse  mapper;
+
+    public ComentariosServiceImpl(ComentarioRepository comentarioRepository, ActividadRepository actividadRepository,
+            UsuarioRepository usuarioRepository, MapperComentarioResponse mapper) {
+        this.comentarioRepository = comentarioRepository;
+        this.actividadRepository = actividadRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.mapper = mapper;
+    }
+
 
     @Override
     public ComentarioEntity guardarComentario(RequestComentariosDTO comentario) {

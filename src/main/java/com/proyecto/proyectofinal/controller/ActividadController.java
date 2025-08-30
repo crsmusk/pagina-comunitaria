@@ -28,14 +28,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/actividad")
 public class ActividadController {
 
-    @Autowired
-    private ActividadService actividadService;
-    @Autowired
-    private MapperDtos mapper;
-    @Autowired
-    private ComentariosServiceImpl comentariosService;
-    @Autowired
-    private InteresServiceImpl interesService;
+    
+    private final  ActividadService actividadService;
+    private final MapperDtos mapper;
+    private final ComentariosServiceImpl comentariosService;
+    private final InteresServiceImpl interesService;
+
+    public ActividadController(ActividadService actividadService, MapperDtos mapper,
+            ComentariosServiceImpl comentariosService, InteresServiceImpl interesService) {
+        this.actividadService = actividadService;
+        this.mapper = mapper;
+        this.comentariosService = comentariosService;
+        this.interesService = interesService;
+    }
 
     @GetMapping("/buscar")
     public String buscarActividades(@RequestParam String resultado, @RequestParam String opcion, Model model) {

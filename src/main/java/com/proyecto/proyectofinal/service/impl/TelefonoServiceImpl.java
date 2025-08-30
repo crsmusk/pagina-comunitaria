@@ -15,8 +15,12 @@ import com.proyecto.proyectofinal.service.interfaces.TelefonoService;
 @Service
 public class TelefonoServiceImpl implements TelefonoService {
 
-    @Autowired
-    private TelefonoRepository telefonoRepository;
+    
+    private final TelefonoRepository telefonoRepository;
+
+    public TelefonoServiceImpl(TelefonoRepository telefonoRepository) {
+        this.telefonoRepository = telefonoRepository;
+    }
 
     @Override
     @Transactional

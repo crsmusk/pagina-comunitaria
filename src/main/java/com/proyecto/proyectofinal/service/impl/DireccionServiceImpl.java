@@ -16,11 +16,15 @@ import com.proyecto.proyectofinal.service.interfaces.DireccionService;
 @Service
 public class DireccionServiceImpl implements DireccionService {
 
-    @Autowired
-    private DireccionRepository direccionRepository;
+    
+    private final DireccionRepository direccionRepository;
+ 
+    private final CiudadServiceImpl ciudadService;    
 
-    @Autowired
-    private CiudadServiceImpl ciudadService;    
+    public DireccionServiceImpl(DireccionRepository direccionRepository, CiudadServiceImpl ciudadService) {
+        this.direccionRepository = direccionRepository;
+        this.ciudadService = ciudadService;
+    }
 
     @Transactional
     @Override

@@ -14,8 +14,12 @@ import com.proyecto.proyectofinal.service.interfaces.CiudadService;
 @Service
 public class CiudadServiceImpl implements CiudadService {
 
-    @Autowired
-    private CiudadRepository ciudadRepository;
+    
+    private final CiudadRepository ciudadRepository;
+
+    public CiudadServiceImpl(CiudadRepository ciudadRepository) {
+        this.ciudadRepository = ciudadRepository;
+    }
 
     @Transactional
     @Override

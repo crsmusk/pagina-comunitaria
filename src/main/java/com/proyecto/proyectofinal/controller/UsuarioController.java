@@ -23,10 +23,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
-    @Autowired
-    private InteresServiceImpl interesService;
+   
+    private final UsuarioService usuarioService;
+    
+    private final InteresServiceImpl interesService;
+
+    public UsuarioController(UsuarioService usuarioService, InteresServiceImpl interesService) {
+        this.usuarioService = usuarioService;
+        this.interesService = interesService;
+    }
 
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {

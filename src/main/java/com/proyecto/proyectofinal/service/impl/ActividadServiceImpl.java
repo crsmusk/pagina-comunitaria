@@ -35,23 +35,31 @@ public class ActividadServiceImpl implements ActividadService {
     @Value("${file.upload-dir.actividades}")
     String direccion;
 
-    @Autowired
-    private EmailServiceImpl emailService;
-
-    @Autowired
-    private ActividadRepository actividadRepository;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private InteresServiceImpl interesService;
-
-    @Autowired
-    private DireccionServiceImpl direccionService;
     
+    private final EmailServiceImpl emailService;
+
+    private final  ActividadRepository actividadRepository;
+   
+    private final UsuarioService usuarioService;
+    
+    private final  UsuarioRepository usuarioRepository;
+    
+    private final  InteresServiceImpl interesService;
+
+    private final DireccionServiceImpl direccionService;
+    
+    public ActividadServiceImpl( EmailServiceImpl emailService,
+            ActividadRepository actividadRepository, UsuarioService usuarioService, UsuarioRepository usuarioRepository,
+            InteresServiceImpl interesService, DireccionServiceImpl direccionService, MapperActividadResponse mapper) {
+        this.emailService = emailService;
+        this.actividadRepository = actividadRepository;
+        this.usuarioService = usuarioService;
+        this.usuarioRepository = usuarioRepository;
+        this.interesService = interesService;
+        this.direccionService = direccionService;
+        this.mapper = mapper;
+    }
+
     /*
      * con el mapper se transforma el objeto de la base de datos a un objeto ResponseActividadDTO
      */

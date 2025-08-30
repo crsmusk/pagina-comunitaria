@@ -19,12 +19,12 @@ import com.proyecto.proyectofinal.repository.UsuarioRepository;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UsuarioRepository usuarioRepo;
+    private final UsuarioRepository usuarioRepo;
 
-    @Autowired
-    public void setUsuarioRepo(UsuarioRepository usuarioRepo) {
+    public CustomUserDetailsService(UsuarioRepository usuarioRepo) {
         this.usuarioRepo = usuarioRepo;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String nickName) throws UsernameNotFoundException {

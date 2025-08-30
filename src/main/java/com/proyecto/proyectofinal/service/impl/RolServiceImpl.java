@@ -15,8 +15,12 @@ import com.proyecto.proyectofinal.service.interfaces.RolService;
 public class RolServiceImpl implements RolService {
 
     
-    @Autowired
-    private RolRepository repositorio;
+    
+    private final RolRepository repositorio;
+
+    public RolServiceImpl(RolRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     //se usara las transacciones para la consistencia de los datos
     @Transactional

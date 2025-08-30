@@ -16,11 +16,15 @@ import com.proyecto.proyectofinal.service.interfaces.EmailService;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private EmailRepository emailRepository;
+   
+    private final EmailRepository emailRepository;
+    
+    private final JavaMailSender emailSender;
 
-    @Autowired
-    private JavaMailSender emailSender;
+    public EmailServiceImpl(EmailRepository emailRepository, JavaMailSender emailSender) {
+        this.emailRepository = emailRepository;
+        this.emailSender = emailSender;
+    }
 
     @Transactional(readOnly = true)
     public void enviarRecordatorio(List<String> destinatarios, String nombreActividad, String fecha, String ubicacion) {

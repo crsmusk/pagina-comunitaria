@@ -32,25 +32,32 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Value("${file.upload-dir.fotos}")
     String direccion;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+   
+    private final UsuarioRepository usuarioRepository;
+ 
+    private final RolServiceImpl rolService;
+ 
+    private final TelefonoServiceImpl telefonoService;
+    
+    private final InteresServiceImpl interesService;
 
-    @Autowired
-    private RolServiceImpl rolService;
+    private final MapperUsuarioResponse mapper;
 
-    @Autowired
-    private TelefonoServiceImpl telefonoService;
-
-    @Autowired
-    private InteresServiceImpl interesService;
-
-    @Autowired
-    private MapperUsuarioResponse mapper;
-
-    @Autowired
-    private EmailServiceImpl emailService;
+    private final EmailServiceImpl emailService;
 
     
+
+    public UsuarioServiceImpl( UsuarioRepository usuarioRepository, RolServiceImpl rolService,
+            TelefonoServiceImpl telefonoService, InteresServiceImpl interesService, MapperUsuarioResponse mapper,
+            EmailServiceImpl emailService) {
+        
+        this.usuarioRepository = usuarioRepository;
+        this.rolService = rolService;
+        this.telefonoService = telefonoService;
+        this.interesService = interesService;
+        this.mapper = mapper;
+        this.emailService = emailService;
+    }
 
     @Transactional
     @Override

@@ -13,8 +13,12 @@ import com.proyecto.proyectofinal.service.interfaces.InteresService;
 @Service
 public class InteresServiceImpl implements InteresService {
 
-    @Autowired
-    private InteresRepository interesRepository;
+    
+    private final InteresRepository interesRepository;
+
+    public InteresServiceImpl(InteresRepository interesRepository) {
+        this.interesRepository = interesRepository;
+    }
 
     @Override
     public InteresEntity guardarInteres(InteresEntity interes) {
