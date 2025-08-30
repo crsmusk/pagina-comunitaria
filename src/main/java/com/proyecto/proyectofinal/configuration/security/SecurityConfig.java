@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .defaultSuccessUrl("/actividad/listar-actividades", true)
                         .failureUrl("/usuario/login") // Redirige a login en caso de fallo
+
+                        .failureUrl("/usuario/login") // Redirige a login 
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/actividad/listar-actividades")
