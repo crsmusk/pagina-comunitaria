@@ -1,9 +1,6 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/crsmusk/pagina-comunitaria)
 
 
-
-
-
 # Página Comunitaria
 
 Una plataforma web comunitaria desarrollada con Spring Boot que permite a los usuarios crear, buscar y participar en actividades locales. La aplicación facilita la conexión entre personas con intereses similares en su comunidad.
